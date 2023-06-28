@@ -6,6 +6,7 @@ contract BookStore {
         string title;
         uint8 price;
         address owner;
+        bool sold;
     }
 
     Book bk;
@@ -13,7 +14,7 @@ contract BookStore {
     // fun setting book details
     // set title price owner
     function setBookDetails(string memory _title, uint8 _price) public {
-        bk = Book(_title, _price, msg.sender);
+        bk = Book(_title, _price, msg.sender,false);
     }
 
     // buys - ownership tranfer
