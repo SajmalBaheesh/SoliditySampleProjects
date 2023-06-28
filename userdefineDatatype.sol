@@ -21,6 +21,7 @@ contract BookStore {
     // buys - ownership transfer
     // buyer provider ether > price
     function buyBook(uint _slno) public payable {
+        require( msg.sender != Books[_slno].owner,"You are already the owner");
         if ((msg.value / 1 ether) == Books[_slno].price) {
             Books[_slno].owner = msg.sender;
         } else if ((msg.value / 1 ether) > Books[_slno].price) {
