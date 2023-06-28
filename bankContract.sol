@@ -14,6 +14,13 @@ contract Bank{
         owner = msg.sender;
     }
 
+   //custom modifier, Functions with this modifier should pass the require condition 
+    modifier onlyOwner() {
+        
+        require(msg.sender == owner,"Access Denied");
+        _;
+    }
+
     //events
     event Depositevent(address depositor ,uint amount) ;
 
@@ -23,6 +30,24 @@ contract Bank{
         emit Depositevent(msg.sender,msg.value);
     }
 
+    //functions to be called by only Owner ,Fns executed only if it passes 
+    function getBankBalance() public view onlyOwner returns(uint){
+        return address(this).balance;
+    } 
+
+    //Send his balance back
+    function deleteAccount()public  {
+        payable (msg.sender).transfer(ledgerBalance[msg.sender]);
+        delete ledgerBalance[msg.sender]; //reset values to default
+    }
+
+    function closeBank() public onlyOwner {
+        //deprecated. Reset the code to default state
+        // selfdestruct(payable (owner))
+
+        payable (owner).transfer(address(this).balance);
+    }
+
     //withdraw
     function withdraw(uint amount) public  {
        require(ledgerBalance[msg.sender] > amount,"Not enough balance");
@@ -30,6 +55,7 @@ contract Bank{
        payable (msg.sender).transfer(amount);
 
     }
+
     function mybalance() public view returns (uint){
         return ledgerBalance[msg.sender];
     }
