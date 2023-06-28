@@ -7,24 +7,25 @@ contract BookStore {
         uint8 price;
         address owner;
         bool sold;
+       
     }
+    mapping (uint => Book) Books;
 
-    Book bk;
 
     // fun setting book details
     // set title price owner
-    function setBookDetails(string memory _title, uint8 _price) public {
-        bk = Book(_title, _price, msg.sender,false);
+    function setBookDetails(uint _slno,string memory _title, uint8 _price) public {
+        Books[_slno] = Book(_title, _price, msg.sender,false);
     }
 
-    // buys - ownership tranfer
+    // buys - ownership transfer
     // buyer provider ether > price
-    function buyBook() public payable {
-        if ((msg.value / 1 ether) == bk.price) {
-            bk.owner = msg.sender;
-        } else if ((msg.value / 1 ether) > bk.price) {
-            bk.owner = msg.sender;
-            uint256 rm = msg.value - bk.price * 1 ether;
+    function buyBook(uint _slno) public payable {
+        if ((msg.value / 1 ether) == Books[_slno].price) {
+            Books[_slno].owner = msg.sender;
+        } else if ((msg.value / 1 ether) > Books[_slno].price) {
+            Books[_slno].owner = msg.sender;
+            uint256 rm = msg.value - Books[_slno].price * 1 ether;
 
             payable(msg.sender).transfer(rm);
         } else {
@@ -32,7 +33,7 @@ contract BookStore {
         }
     }
 
-    function getBookDetails() public view returns (Book memory) {
-        return (bk);
+    function getBookDetails(uint _slno) public view returns (Book memory) {
+        return (Books[_slno]);
     }
 }
