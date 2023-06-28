@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
 
@@ -15,9 +14,13 @@ contract Bank{
         owner = msg.sender;
     }
 
+    //events
+    event Depositevent(address depositor ,uint amount) ;
+
     //deposit
     function deposit() public payable {
         ledgerBalance[msg.sender] = ledgerBalance[msg.sender] + msg.value;
+        emit Depositevent(msg.sender,msg.value);
     }
 
     //withdraw
