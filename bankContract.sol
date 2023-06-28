@@ -44,8 +44,8 @@ contract Bank{
     function closeBank() public onlyOwner {
         //deprecated. Reset the code to default state
         // selfdestruct(payable (owner))
-
         payable (owner).transfer(address(this).balance);
+        //TODO: Allow owner to close account only if all other's  got their money 
     }
 
     //withdraw
@@ -59,4 +59,5 @@ contract Bank{
     function mybalance() public view returns (uint){
         return ledgerBalance[msg.sender];
     }
+    // TODO: Function to change ownership
 }
