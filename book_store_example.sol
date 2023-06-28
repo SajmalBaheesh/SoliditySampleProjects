@@ -35,14 +35,16 @@ contract BookStore {
     // buyer provider ether > price
     function buyBook(uint _slno) public payable {
         require( msg.sender != Books[_slno].owner,"You are already the owner");
+        require(Books[_slno].sold,"Book is already sold");
         if ((msg.value / 1 ether) == Books[_slno].price) {
             Books[_slno].owner = msg.sender;
+            Books[_slno].sold = true;
         } else if ((msg.value / 1 ether) > Books[_slno].price) {
             Books[_slno].owner = msg.sender;
             uint256 rm = msg.value - Books[_slno].price * 1 ether;
-
-            payable(msg.sender).transfer(rm);
             Books[_slno].sold = true;
+            payable(msg.sender).transfer(rm);
+            
         } else {
             revert();
         }
