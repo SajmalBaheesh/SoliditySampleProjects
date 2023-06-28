@@ -9,6 +9,12 @@ contract BookStore {
         bool sold;
        
     }
+
+    //Using a dynamic array for storing book lists 
+    uint[]  booklist;
+
+
+
     mapping (uint => Book) Books;
 
 
@@ -16,6 +22,13 @@ contract BookStore {
     // set title price owner
     function setBookDetails(uint _slno,string memory _title, uint8 _price) public {
         Books[_slno] = Book(_title, _price, msg.sender,false);
+        booklist.push(_slno);
+    }
+
+    //Fn overloading: for registering an already sold book
+    function setBookDetails(uint _slno,string memory _title, uint8 _price, bool _soldornot) public {
+        Books[_slno] = Book(_title, _price, msg.sender,_soldornot);
+        booklist.push(_slno);
     }
 
     // buys - ownership transfer
@@ -29,6 +42,7 @@ contract BookStore {
             uint256 rm = msg.value - Books[_slno].price * 1 ether;
 
             payable(msg.sender).transfer(rm);
+            Books[_slno].sold = true;
         } else {
             revert();
         }
@@ -37,4 +51,9 @@ contract BookStore {
     function getBookDetails(uint _slno) public view returns (Book memory) {
         return (Books[_slno]);
     }
+
+    function getBooklist() public view returns(uint [] memory) {
+        return booklist;
+    }
+
 }
