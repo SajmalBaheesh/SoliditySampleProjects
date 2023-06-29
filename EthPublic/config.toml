@@ -1,0 +1,10 @@
+network="GOERLI"
+data-path = "./data"
+rpc-http-enabled=true
+rpc-http-host="0.0.0.0"
+rpc-http-cors-origins=["*"]
+rpc-ws-enabled=true
+rpc-ws-host="0.0.0.0"
+engine-host-allowlist=["*"]
+engine-rpc-enabled=true
+engine-jwt-secret="./jwtsecret.hex"
