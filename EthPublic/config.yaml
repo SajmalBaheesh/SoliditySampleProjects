@@ -1,0 +1,5 @@
+network: "goerli"
+ee-endpoint: "http://localhost:8551"
+ee-jwt-secret-file: "./jwtsecret.hex"
+metrics-enabled: true
+rest-api-enabled: true
