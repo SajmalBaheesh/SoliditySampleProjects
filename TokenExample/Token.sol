@@ -13,8 +13,11 @@ contract Token {
     }
 
     // change owner
-    function changeTokenOwner(uint _tokenID, address newOwner) public {
+    function changeTokenOwner(uint _tokenID, address newOwner) external  {
         tokenOwner[_tokenID] = newOwner;
     }
-}
 
+    function getOwner(uint _tokenID) external view returns (address) {
+        return tokenOwner[_tokenID];
+    }
+}
